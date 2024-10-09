@@ -23,9 +23,8 @@ function statusRDP {
         
 
     # Verificar el estado del firewall para Escritorio Remoto
-    $firewallStatus = Get-NetFirewallRule | Where-Object { $_.DisplayName -like "*RDP*" -or $_.DisplayName -like "*Escritorio Remoto*" }
-    #Get-NetFirewallRule -DisplayGroup "Escritorio Remoto" | Where-Object { $_.Enabled -eq 'True' }
-
+    $firewallStatus = Get-NetFirewallRule | Where-Object { $_.DisplayName -like "*RDP*" -or $_.DisplayName -like "*Escritorio Remoto*" } | Where-Object { $_.Enabled -eq 'True' }
+    
     # Verificar si las reglas del firewall están habilitadas
     if ($firewallStatus) {
         #Firewall configurado
@@ -111,14 +110,22 @@ do {
 
             if ($estado[0] -eq 0 -and $estado[1] -eq 0) {
                                 Write-Host "-----------------------------------------------------------------------------------------------------------------------------------------------"
-                                Write-Host "Escritorio Remoto está HABILITADO y el Firewall SI permite conexiones."
+                                Write-Host "Escritorio Remoto está " -NoNewline 
+                                Write-Host "HABILITADO" -ForegroundColor Black -BackgroundColor Green -NoNewline
+                                Write-Host " y el Firewall " -NoNewline 
+                                Write-Host "SI" -ForegroundColor Black -BackgroundColor Green -NoNewline 
+                                Write-Host " permite conexiones."
                                 Write-Host "-----------------------------------------------------------------------------------------------------------------------------------------------"
 
             }
 
                 elseif ($estado[0] -eq 0 -and $estado[1] -eq 1) {
                                 Write-Host "-----------------------------------------------------------------------------------------------------------------------------------------------"                    
-                                Write-Host "Escritorio Remoto está HABILITADO pero el Firewall NO permite conexiones.Vaya el menu principal y seleccione la opcion 2 para habilitar RDP"
+                                Write-Host "Escritorio Remoto está " -NoNewline
+                                Write-Host "HABILITADO" -ForegroundColor Black -BackgroundColor Green -NoNewline
+                                Write-Host " pero el Firewall " -NoNewline
+                                Write-Host "NO permite conexiones" -ForegroundColor Black -BackgroundColor Red -NoNewline
+                                Write-Host ".Vaya el menu principal y seleccione la opcion 2 para habilitar RDP"
                                 Write-Host "-----------------------------------------------------------------------------------------------------------------------------------------------"
 
     
@@ -126,23 +133,34 @@ do {
 
                         elseif ($estado[0] -eq 1 -and $estado[1] -eq 0) {
                                 Write-Host "----------------------------------------------------------------------------------------------------------------------------------------------------"                            
-                                Write-Host "El Firewall SI permite conexiones pero el Escritorio Remoto esta DESHABILITADO.Vaya el menu principal y seleccione la opcion 2 para habilitar RDP"
+                                Write-Host "El Firewall " -NoNewline 
+                                Write-Host "SI permite conexiones" -ForegroundColor Black -BackgroundColor Green -NoNewline 
+                                Write-Host " pero el Escritorio Remoto esta " -NoNewline 
+                                Write-Host "DESHABILITADO" -ForegroundColor Black -BackgroundColor Red -NoNewline 
+                                Write-Host ".Vaya el menu principal y seleccione la opcion 2 para habilitar RDP"
                                 Write-Host "----------------------------------------------------------------------------------------------------------------------------------------------------"
 
                         }
                             
                             elseif ($estado[0] -eq 1 -and $estado[1] -eq 1) {
                                 Write-Host "-----------------------------------------------------------------------------------------------------------------------------------------------"
-                                Write-Host "El Firewall NO permite conexiones y el Escritorio Remoto esta DESHABILITADO.Vaya el menu principal y seleccione la opcion 2 para habilitar RDP"
+                                Write-Host "El Firewall " -NoNewline
+                                Write-Host "NO permite conexiones" -ForegroundColor Black -BackgroundColor Red -NoNewline
+                                Write-Host " y el Escritorio Remoto esta " -NoNewline 
+                                Write-Host "DESHABILITADO" -ForegroundColor Black -BackgroundColor Red -NoNewline
+                                Write-Host ".Vaya el menu principal y seleccione la opcion 2 para habilitar RDP"
                                 Write-Host "-----------------------------------------------------------------------------------------------------------------------------------------------"
 
                                 }
 
                                     else {
                                             Write-Host "-----------------------------------------"
-                                            Write-Host "No se puede determinar el estado del RDP" 
+                                            Write-Host "No se puede determinar el estado del RDP" -ForegroundColor Black -BackgroundColor Red
                                             Write-Host "-----------------------------------------"
                                             }
+
+                                Write-Host " "
+                                
 
         
     }
@@ -154,7 +172,7 @@ do {
 
             if ($estado[0] -eq 0 -and $estado[1] -eq 0) {
                                 Write-Host "-----------------------------------------------------------------------------------------------------------------------------------------------"
-                                Write-Host "RDP ya estaba HABILITADO"
+                                Write-Host "RDP ya estaba HABILITADO" -ForegroundColor Black -BackgroundColor Green
                                 Write-Host "-----------------------------------------------------------------------------------------------------------------------------------------------"
 
             }
@@ -164,7 +182,7 @@ do {
                                 $on
 
                                 Write-Host "-----------------------------------------------------------------------------------------------------------------------------------------------"                    
-                                Write-Host "RDP HABILITADO"
+                                Write-Host "RDP HABILITADO" -ForegroundColor Black -BackgroundColor Green
                                 Write-Host "-----------------------------------------------------------------------------------------------------------------------------------------------"
 
     
@@ -175,7 +193,7 @@ do {
                                 $on
 
                                 Write-Host "-----------------------------------------------------------------------------------------------------------------------------------------------"                    
-                                Write-Host "RDP HABILITADO"
+                                Write-Host "RDP HABILITADO" -ForegroundColor Black -BackgroundColor Green
                                 Write-Host "-----------------------------------------------------------------------------------------------------------------------------------------------"
 
                         }
@@ -185,14 +203,13 @@ do {
                                 $on
 
                                 Write-Host "-----------------------------------------------------------------------------------------------------------------------------------------------"                    
-                                Write-Host "RDP HABILITADO"
+                                Write-Host "RDP HABILITADO" -ForegroundColor Black -BackgroundColor Green
                                 Write-Host "-----------------------------------------------------------------------------------------------------------------------------------------------"
 
                                 }
 
 
-            Write-Host "Pulsa cualquier tecla para volver al menu principal..."
-            Read-Host -Prompt " "
+            Write-Host " "
      }
 
     '3' {
@@ -205,7 +222,7 @@ do {
                                 $off
 
                                 Write-Host "-----------------------------------------------------------------------------------------------------------------------------------------------"
-                                Write-Host "RDP DESHABILITADO"
+                                Write-Host "RDP DESHABILITADO" -ForegroundColor Black -BackgroundColor Red
                                 Write-Host "-----------------------------------------------------------------------------------------------------------------------------------------------"
 
             }
@@ -215,7 +232,7 @@ do {
                                 $off
 
                                 Write-Host "-----------------------------------------------------------------------------------------------------------------------------------------------"
-                                Write-Host "RDP DESHABILITADO"
+                                Write-Host "RDP DESHABILITADO" -ForegroundColor Black -BackgroundColor Red
                                 Write-Host "-----------------------------------------------------------------------------------------------------------------------------------------------"
 
     
@@ -226,17 +243,19 @@ do {
                                 $off
 
                                 Write-Host "-----------------------------------------------------------------------------------------------------------------------------------------------"
-                                Write-Host "RDP DESHABILITADO"
+                                Write-Host "RDP DESHABILITADO" -ForegroundColor Black -BackgroundColor Red
                                 Write-Host "-----------------------------------------------------------------------------------------------------------------------------------------------"
 
                         }
                             
                             elseif ($estado[0] -eq 1 -and $estado[1] -eq 1) {
                                 Write-Host "-----------------------------------------------------------------------------------------------------------------------------------------------"
-                                Write-Host "RDP ya estaba DESHABILITADO"
+                                Write-Host "RDP ya estaba DESHABILITADO" -ForegroundColor Black -BackgroundColor Red
                                 Write-Host "-----------------------------------------------------------------------------------------------------------------------------------------------"
 
                                 }
+                    
+                            Write-Host " "
 
 
       }
@@ -252,6 +271,19 @@ do {
 
     }
 
-
+    #Bucle que se ejecuta despues de cada opcion para poder elegir si volver al menu principal o salir del programa
+    $salirMenu = $false
+    while (!$salirMenu) {
+    Write-Host "Volver al menú principal (S/N)?"
+        $opcionSalir = Read-Host
+        if ($opcionSalir -eq "S") {
+          $salirMenu = $true
+        } elseif ($opcionSalir -eq "N") {
+          $salirMenu = $true
+          $input = "Q"
+        } else {
+          Write-Host "Opción no válida."
+        }
+  }
     
 } while ($input -ne "Q")
