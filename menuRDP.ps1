@@ -98,7 +98,15 @@ do {
     Write-Host "2) Habilitar RDP"
     Write-Host "3) Deshabilitar RDP"
     Write-Host "Q) Salir"
-    Write-Host "=================================="
+    Write-Host "===================================================="
+    
+    Write-Host "*IP Publica:" -NoNewline -ForegroundColor Black -BackgroundColor DarkYellow 
+    (Invoke-WebRequest http://ipinfo.io/ip).Content 
+    Write-Host "*IP Privada:" -NoNewline -ForegroundColor Black -BackgroundColor DarkYellow
+    (Get-NetIPAddress | Where-Object { $_.IPAddress -match "\b(?:192\.168|10\.|172\.1[6-9]|172\.2[0-9]|172\.3[0-1])\.\b" }).IPAddress
+    $fecha = Get-Date
+    Write-Host $fecha -ForegroundColor Black -BackgroundColor Magenta
+    Write-Host "===================================================="
 
     $input= Read-Host "Introduce una opcion: "
 
@@ -160,6 +168,7 @@ do {
                                             }
 
                                 Write-Host " "
+                                $salirMenu = $false
                                 
 
         
@@ -210,6 +219,7 @@ do {
 
 
             Write-Host " "
+            $salirMenu = $false
      }
 
     '3' {
@@ -256,11 +266,12 @@ do {
                                 }
                     
                             Write-Host " "
-
+                            $salirMenu = $false
 
       }
 
     'Q' {
+            $salirMenu = $true
             Write-Host "Saliendo..."
             break
      }
@@ -272,7 +283,6 @@ do {
     }
 
     #Bucle que se ejecuta despues de cada opcion para poder elegir si volver al menu principal o salir del programa
-    $salirMenu = $false
     while (!$salirMenu) {
     Write-Host "Volver al menú principal (S/N)?"
         $opcionSalir = Read-Host
